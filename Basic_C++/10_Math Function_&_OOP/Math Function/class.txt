@@ -1,0 +1,25 @@
+FN: pow(a,b) -> a to the power b & that returns a double type value
+run time :O(log(n)) -> n: power
+
+FN: sqrt(n) -> square root of n & that also returns a double type value
+run time : O(root(n))
+
+problem 1: input a integer number 
+if it's a perfect square print YES otherwise, NO
+
+FN: cbrt(n) -> cube root of n & returns double type value
+
+FN: ceil(round up), floor(round down), round(round to nearest) 
+-> takes double as input & return int type value
+
+FN: trunc( same as floor ) -> takes double as input & return int type value
+
+FN: min(a,b) -> minimum between a & b
+
+FN: max(a,b) -> maximum between a & b
+
+FN: popcount(n) -> returns a int value :
+number of the set bits of the binary representation
+5 -> 101 ; so popcount(5)=2( bcz the number of '1' is two)
+writing technique : __builtin_popcount()
+

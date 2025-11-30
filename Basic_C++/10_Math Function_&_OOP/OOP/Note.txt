@@ -1,0 +1,13 @@
+OOP:
+
+A school:
+Many students
+
+we can store different kind of info's using array;
+
+roll arry;
+name array;
+marks array;
+
+but thats a too long and complex process. 
+We can't do different operations with the arrays properly
