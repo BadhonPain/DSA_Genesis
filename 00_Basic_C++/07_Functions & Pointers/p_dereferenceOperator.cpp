@@ -6,5 +6,5 @@ int main()
     int *p = &x;
     cout << x << endl; // x=3
     *p = 4;            // changing the value of 'x'
-    cout << x << endl; // x=3
+    cout << x << endl; // x=4
 }
