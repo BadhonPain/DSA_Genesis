@@ -5,12 +5,14 @@ class Node
 {
 public:
     int data;
+    Node *prev;
     Node *next;
 
     Node(int val)
     {
         data = val;
-        next = NULL;
+        prev = nullptr;
+        next = nullptr;
     }
 };
 
@@ -23,67 +25,102 @@ class ListDequeue
 public:
     ListDequeue()
     {
-        head = tail = NULL;
+        head = tail = nullptr;
         count = 0;
     }
-    void push_back(int val); // add val to the end of the queue
+    void push_back(int val);  // add val to the rear of the queue
     void push_front(int val); // add val to the start of the queue
-    void pop_front();         // remove val from the queue
-    int front();        // returns the front value
-    int back();         // returns the back value
-    int size();         // returns size of the queue
-    bool empty();       // checks that the queue is empty or not
+    void pop_front();         // remove val from the front of the queue
+    void pop_back();          // remove val from the rear of the queue
+    int front();              // returns the front value
+    int back();               // returns the back value
+    int size();               // returns size of the queue
+    bool isEmpty();           // checks that the queue is empty or not
     void print();
 
     ~ListDequeue()
     {
-        while (!empty())
+        while (!isEmpty())
             pop_front();
     }
 };
 
-void ListDequeue ::push_back(int val) 
+void ListDequeue ::push_back(int val)
 {
     Node *newNode = new Node(val);
-    count++;
-    
-    if (tail == NULL)
+
+    if (isEmpty())
     {
         head = tail = newNode;
-        return;
+    }
+    else
+    {
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
     }
 
-    tail->next = newNode;
-    tail = newNode;
+    count++;
 }
 
 void ListDequeue::push_front(int val)
 {
-    
+    Node *newNode = new Node(val);
+    if (isEmpty())
+    {
+        head = tail = newNode;
+        return;
+    }
+    else
+    {
+        newNode->next = head;
+        head->prev = newNode;
+        head = newNode;
+    }
+    count++;
 }
 
-void ListDequeue ::pop_front() 
+void ListDequeue ::pop_front()
 {
-    if (empty())
+    if (isEmpty())
     {
-        cout << "Queue is Empty!" << endl;
+        cout << "Queue is isEmpty!" << endl;
         return;
     }
 
     Node *temp = head;
     head = head->next;
+    if (head != nullptr)
+        head->prev = nullptr;
+    else
+        tail = nullptr;
     delete temp;
     count--;
+}
 
-    if (head == NULL)
-        tail = NULL;
+void ListDequeue ::pop_back()
+{
+    if (isEmpty())
+    {
+        cout << "Queue is isEmpty!" << endl;
+        return;
+    }
+
+    Node *temp = tail;
+    tail = tail->prev;
+    if (tail != nullptr)
+        tail->next = nullptr;
+    else
+        head = nullptr;
+    delete temp;
+    count--;
 }
 
 int ListDequeue::front()
 {
-    if (empty())
+    if (isEmpty())
     {
-        cout << "Queue is Empty !" << endl;
+        cout << "Queue is isEmpty !" << endl;
         return -1;
     }
     return head->data;
@@ -91,9 +128,9 @@ int ListDequeue::front()
 
 int ListDequeue::back()
 {
-    if (empty())
+    if (isEmpty())
     {
-        cout << "Queue is Empty !" << endl;
+        cout << "Queue is isEmpty !" << endl;
         return -1;
     }
 
@@ -105,21 +142,21 @@ int ListDequeue::size()
     return count;
 }
 
-bool ListDequeue::empty()
+bool ListDequeue::isEmpty()
 {
     return count == 0;
 }
 
 void ListDequeue::print()
 {
-    if (empty())
+    if (isEmpty())
     {
         cout << "Queue is Empty !" << endl;
         return;
     }
 
     Node *current = head;
-    while (current != NULL)
+    while (current != nullptr)
     {
         cout << current->data << " ";
         current = current->next;
@@ -131,19 +168,54 @@ int main()
 {
     ListDequeue dq;
 
+    cout << "=== Initial State ===" << endl;
+    dq.print();
+    cout << "Is empty? " << (dq.isEmpty() ? "Yes" : "No") << endl;
+    cout << "Size: " << dq.size() << endl << endl;
+
+    cout << "=== Push Back Operations ===" << endl;
     dq.push_back(7);
     dq.push_back(11);
     dq.push_back(200);
     dq.push_back(6);
-
     dq.print();
+    cout << "Front: " << dq.front() << ", Back: " << dq.back() << endl;
+    cout << "Size: " << dq.size() << endl << endl;
+
+    cout << "=== Pop Front ===" << endl;
     dq.pop_front();
-
-    dq.push_back(8);
-    dq.push_back(12);
-    dq.push_back(200);
-    dq.push_back(6);
-
-    cout << dq.front() << endl;
     dq.print();
+    cout << "Front: " << dq.front() << ", Back: " << dq.back() << endl;
+    cout << "Size: " << dq.size() << endl << endl;
+
+    cout << "=== Push Front Operations ===" << endl;
+    dq.push_front(8);
+    dq.push_front(200);
+    dq.print();
+    cout << "Front: " << dq.front() << ", Back: " << dq.back() << endl;
+    cout << "Size: " << dq.size() << endl << endl;
+
+    cout << "=== Push & Pop Combination ===" << endl;
+    dq.push_back(12);
+    dq.push_back(6);
+    dq.pop_back();
+    dq.pop_front();
+    dq.print();
+    cout << "Front: " << dq.front() << ", Back: " << dq.back() << endl;
+    cout << "Size: " << dq.size() << endl << endl;
+
+    cout << "=== Pop Until Empty ===" << endl;
+    while (!dq.isEmpty())
+    {
+        cout << "Removing front: " << dq.front() << endl;
+        dq.pop_front();
+        dq.print();
+    }
+
+    cout << "Final state: " << endl;
+    dq.print();
+    cout << "Is empty? " << (dq.isEmpty() ? "Yes" : "No") << endl;
+    cout << "Size: " << dq.size() << endl;
+
+    return 0;
 }
