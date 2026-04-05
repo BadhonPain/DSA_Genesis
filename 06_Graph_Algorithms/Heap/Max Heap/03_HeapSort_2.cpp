@@ -1,26 +1,26 @@
 #include <iostream>
 using namespace std;
 
-class MinHeap
+class MaxHeap
 {
     int *arr;
     int size;
 
-    void minHeapify(int i, int currentSize) // O(logn)
+    void maxHeapify(int i, int currentSize) // O(logn)
     {
         int left = 2 * i + 1;
         int right = 2 * i + 2;
-        int smallest = i;
+        int largest = i;
 
-        if (left < currentSize&& arr[left] < arr[i])
-            smallest = left;
-        if (right < currentSize&& arr[right] < arr[smallest])
-            smallest = right;
+        if (left < currentSize && arr[left] > arr[i])
+            largest = left;
+        if (right < currentSize && arr[right] > arr[largest])
+            largest = right;
 
-        if (smallest != i)
+        if (largest != i)
         {
-            swap(arr[i], arr[smallest]);
-            minHeapify(smallest,currentSize);
+            swap(arr[i], arr[largest]);
+            maxHeapify(largest, currentSize);
         }
     }
 
@@ -28,12 +28,12 @@ class MinHeap
     {
         for (int i = size / 2 - 1; i >= 0; i--)
         {
-            minHeapify(i,size);
+            maxHeapify(i, size);
         }
     }
 
 public:
-    MinHeap(int *A, int size)
+    MaxHeap(int *A, int size)
     {
         this->size = size;
         arr = new int[size];
@@ -53,30 +53,27 @@ public:
         cout << endl;
     }
 
-    int extractMin() // O(logn)
+    int extractMax() // O(logn)
     {
         int oldMin = arr[0];
         arr[0] = arr[size - 1];
         size--;
-        minHeapify(0,size);
+        maxHeapify(0, size);
 
-        cout << oldMin << " is extracted from Heap." << endl;
         return oldMin;
     }
 
-    void heapSort()
+    void heapSortByExtraction()
     {
-        buildHeap();
-        int n = size - 1;
-
-        for (int i = n; i >= 1; i--)
+        int n = size;
+        while (n--)
         {
-            swap(arr[0], arr[i]);
-            minHeapify(0,i);
+            cout << extractMax() << " ";
         }
+        cout << endl;
     }
 
-    ~MinHeap()
+    ~MaxHeap()
     {
         cout << "Destructing...." << endl;
         delete[] arr;
@@ -86,10 +83,10 @@ public:
 int main()
 {
     int arr[6] = {3, 2, 1, 5, 6, 4};
-    MinHeap heap(arr, 6);
+    MaxHeap heap(arr, 6);
     cout << "Creted Heap: " << endl;
     heap.printHeap();
     cout << "Sorted: " << endl;
-    heap.heapSort();
+    heap.heapSortByExtraction();
     heap.printHeap();
 }

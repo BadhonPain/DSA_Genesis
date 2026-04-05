@@ -19,7 +19,7 @@ public:
             swap(nums[largest], nums[i]);
             maxHeapify(nums, largest);
         }
-    }
+            }
 
     int extractMax(vector<int>& nums) {
         int oldMax = nums[0];
