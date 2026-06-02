@@ -11,7 +11,7 @@ int count_x(char *ptr, char x)
     for (; *ptr != '0'; ++ptr)
     {
         if (*ptr == x)
-           ++count;
+            ++count;
     }
 
     return count;
@@ -19,7 +19,7 @@ int count_x(char *ptr, char x)
 
 int main()
 {
-    char arr[MAX_SIZE] = {'b', 'a', 'd', 'h', 'o', 'n', 'p', 'a', 'i', 'n','0'};
+    char arr[MAX_SIZE] = {'b', 'a', 'd', 'h', 'o', 'n', 'p', 'a', 'i', 'n', '0'};
     char *charPtr = arr;
     cout << count_x(charPtr, 'n') << endl;
 }
